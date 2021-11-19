@@ -5,3 +5,6 @@ Lib
 Scripts
 
 pyenv.cfg
+
+# PyCaches
+*__pycache__
