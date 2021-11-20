@@ -8,3 +8,6 @@ pyenv.cfg
 
 # PyCaches
 *__pycache__
+
+
+.DS_Store
