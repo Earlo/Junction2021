@@ -1,10 +1,10 @@
 import os
 import jinja2
+import requests
 
 from flask import Flask, request, redirect, url_for
 import flask_login
 
-import json
 from transformers import pipeline
 
 from .user import User, login_manager, userNameExists, checkPassword, createUser, updateSocialCredit, users, comments, saveComment, getCredits
@@ -129,10 +129,23 @@ def buy_gh_follower():
     elif request.method == "POST":
 
         gh_profile_url = request.form["github_profile_url"]
+        gh_profile_name = gh_profile_url.removeprefix("https://github.com/")
 
         user = flask_login.current_user.id
 
         if getCredits(user) < 25:
             return "Insufficient credits. Need 25 karma coins for Github follower."
 
-        # TODO Try to follow
+        response = requests.put(
+            f"https://api.github.com/user/following/{gh_profile_name}",
+            headers={
+                "Accept": "application/vnd.github.v3+json",
+                "Authorization": f"token {os.environ['GH_JANNE']}"
+            }
+        )
+
+        if response.status_code == 204:
+            updateSocialCredit(user, -25)
+            return "Congratulations on your new follower: https://github.com/Manezki"
+        else:
+            return "Something went wrong with the purchase, did you supply Github profile link in the form https://github.com/USERNAME?"
