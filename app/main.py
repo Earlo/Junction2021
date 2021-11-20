@@ -21,9 +21,6 @@ classifier = pipeline(
                     framework="pt"
                     )
 
-for param in classifier.model.base_model.parameters():
-    param.requires_grad = False
-
 login_manager.init_app(app)
 
 def loginAs(username):
