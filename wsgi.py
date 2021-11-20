@@ -11,7 +11,7 @@ except:
 
 cur = conn.cursor()
 try:
-  cur.execute("CREATE TABLE chatUser (username text PRIMARY KEY, password text);")
+  cur.execute("CREATE TABLE chatUser (username text PRIMARY KEY, password text, socialcredit float DEFAULT 0.0);")
   
   cur.execute("CREATE TABLE comments (id serial PRIMARY KEY, content text, poster text);")
 except:
