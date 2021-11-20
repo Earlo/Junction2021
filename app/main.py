@@ -1,4 +1,5 @@
 import os
+import jinja2
 
 from flask import Flask, request, redirect, url_for
 import flask_login
@@ -20,6 +21,14 @@ classifier = pipeline(
                     function_to_apply="sigmoid",
                     framework="pt"
                     )
+
+template_dir = os.path.realpath(
+    os.path.join(
+        os.path.dirname(__file__), "templates"
+    )
+)
+templateLoader = jinja2.FileSystemLoader(searchpath=template_dir)
+templateEnv = jinja2.Environment(loader=templateLoader)
 
 login_manager.init_app(app)
 
@@ -58,9 +67,19 @@ def login():
 @app.route('/protected')
 @flask_login.login_required
 def protected():
+
+    template = templateEnv.get_template("protected.jinja")
+
+    user = flask_login.current_user.id
+
     #TODO message prompt here
     #TODO logout button
-    return 'Logged in as: ' + flask_login.current_user.id
+    return template.render(
+        username = user,
+        users = {"PLACEHOLDER USER": 0.0}
+    )
+
+
 
 @app.route('/logout')
 def logout():
