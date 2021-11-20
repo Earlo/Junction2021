@@ -12,6 +12,12 @@
             <header>
                 <p>Logged in as {{username}}</p>
             </header>
+            <form action='comment' method='POST'>
+                <input type='comment' name='comment' id='comment' placeholder='comment'/>
+                <input type='hidden' name='user' id='user' placeholder='user' value='{{username}}'/>
+                <input type='submit' name='submit'/>
+            </form>
+
             <table class="leaderboard">
                  <thead>
                     <tr>

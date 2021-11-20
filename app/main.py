@@ -88,16 +88,17 @@ def logout():
     return 'Logged out'
 
 
-@app.route("/comment", methods=["POST"])
+@app.route("/comment", methods=["POST", "GET"])
 def receive_comment():
-    data = request.get_json()
+    if request.method == 'GET':
+        return ''
+    if request.method == 'POST':
+        data = request.form    
+        user, comment = (data["user"], data["comment"])
 
-    user, comment = (data["user"], data["comment"])
-
-    social_credit_change = score_sentiment(process_comment(str(comment), classifier))
-
-    if updateSocialCredit(user, social_credit_change):
-        # TODO: Add comment to the DB
-        pass
-
-    return ("", 200)
+        social_credit_change = score_sentiment(process_comment(str(comment), classifier))
+        print(social_credit_change)
+        if updateSocialCredit(user, social_credit_change):
+            # TODO: Add comment to the DB
+            pass
+        return redirect(url_for('protected'))
