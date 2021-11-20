@@ -8,6 +8,8 @@ from transformers import pipeline
 
 from .user import User, login_manager, users, checkPassword
 
+from sentiment_scoring import process_comment, score_sentiment
+
 app = Flask(__name__)
 app.secret_key = os.environ['SECRET']
 
@@ -18,7 +20,6 @@ classifier = pipeline(
                     function_to_apply="sigmoid",
                     framework="pt"
                     )
-
 
 login_manager.init_app(app)
 
@@ -60,3 +61,17 @@ def protected():
 def logout():
     flask_login.logout_user()
     return 'Logged out'
+
+
+@app.route("/comment", methods=["POST"])
+def receive_comment():
+  data = request.get_json()
+
+  user, comment = (data["user"], data["comment"])
+
+  social_credit_change = score_sentiment(process_comment(str(comment), classifier))
+
+  # Add comment & update the credit of the user
+
+  return ("", 200)
+
