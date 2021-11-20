@@ -4,21 +4,29 @@
 
     <style type="text/css">
         .main-container { display: flex; justify-content: center; align-items: center; flex-direction: column; }
+        .comment-box { margin: 20px 20px }
+        table, hr { min-width: 350px; }
+        td { border: 2px solid #999; border-radius: 5px; padding: 6px 8px; }
+        body { font-family: "Helvetica Neue", "Arial", sans-serif; letter-spacing: 0.03em; }
+        caption { margin: 10px; }
     </style>
 
     </head>
     <body>
         <div class="main-container">
             <header>
-                <p>Logged in as {{username}}</p>
+                <p>Logged in as <b>{{username}}</b></p>
             </header>
-            <form action='comment' method='POST'>
+            <form class="comment-box" action='comment' method='POST'>
                 <input type='comment' name='comment' id='comment' placeholder='comment'/>
                 <input type='hidden' name='user' id='user' placeholder='user' value='{{username}}'/>
                 <input type='submit' name='submit'/>
             </form>
 
+            <hr>
+
             <table class="leaderboard">
+                 <caption>Best behaving users</caption>
                  <thead>
                     <tr>
                     <th>Name</th>
