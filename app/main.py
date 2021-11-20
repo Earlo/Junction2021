@@ -53,13 +53,9 @@ def login():
         except AttributeError:
             pass
 
-        return '''
-               <form action='login' method='POST'>
-                <input type='text' name='username' id='username' placeholder='username'/>
-                <input type='password' name='password' id='password' placeholder='password'/>
-                <input type='submit' name='submit'/>
-               </form>
-               '''
+        template = templateEnv.get_template("login.jinja")
+
+        return template.render()
 
     username = request.form['username']
     password = request.form['password']
@@ -110,7 +106,7 @@ def receive_comment():
         user, comment = (data["user"], data["comment"])
 
         social_credit_change = score_sentiment(process_comment(str(comment), classifier))
-        print(social_credit_change)
+
         if updateSocialCredit(user, social_credit_change):
             # TODO: Add comment to the DB
             pass
