@@ -22,6 +22,27 @@
                 <input type='hidden' name='user' id='user' placeholder='user' value='{{username}}'/>
                 <input type='submit' name='submit'/>
             </form>
+            <table class="leaderboard">
+                <caption>Comments</caption>
+                <thead>
+                    <tr>
+                    <th>Poster</th>
+                    <th>Comment</th>
+                    <th>score</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for c in comments|sort(attribute='score' |reverse) %}
+                        <tr>
+                            <td>{{c.poster}}</td>
+                            <td>{{c.content}}</td>
+                            <td>{{c.score}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
 
             <hr>
 

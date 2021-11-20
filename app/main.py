@@ -7,7 +7,7 @@ import flask_login
 import json
 from transformers import pipeline
 
-from .user import User, login_manager, userNameExists, checkPassword, createUser, updateSocialCredit, users
+from .user import User, login_manager, userNameExists, checkPassword, createUser, updateSocialCredit, users, comments, saveComment
 
 from .sentiment_scoring import process_comment, score_sentiment
 
@@ -85,9 +85,12 @@ def protected():
         user: sc for (user, sc) in users()
     }
 
+    comment_items = list(map(lambda c : {'id': c[0], 'content': c[1], 'poster': c[2], 'score': c[3]}, comments()))
+    print("comm", comment_items)
     return template.render(
         username = user,
-        users = stored_users
+        users = stored_users,
+        comments = comment_items
     )
 
 
@@ -108,6 +111,5 @@ def receive_comment():
         social_credit_change = score_sentiment(process_comment(str(comment), classifier))
 
         if updateSocialCredit(user, social_credit_change):
-            # TODO: Add comment to the DB
-            pass
+            saveComment(comment, user, social_credit_change)
         return redirect(url_for('protected'))

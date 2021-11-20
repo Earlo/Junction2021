@@ -13,14 +13,12 @@ if __name__ == "__main__":
     cur = conn.cursor()
     try:
         cur.execute("CREATE TABLE chatUser (username text PRIMARY KEY, password text, socialcredit float DEFAULT 0.0);")
-      
-        cur.execute("CREATE TABLE comments (id serial PRIMARY KEY, content text, poster text);")
     except:
         print("I can't drop our test database!")
     conn.commit()
 
     try:  
-        cur.execute("CREATE TABLE comments (id serial PRIMARY KEY, content text, poster text);")
+        cur.execute("CREATE TABLE comments (id serial PRIMARY KEY, content text, poster text, score float);")
     except:
         print("I can't drop our test database!")
     conn.commit()

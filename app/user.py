@@ -16,6 +16,14 @@ def users():
     print("user 0", result[0][0], type(result[0][0]))
     return result
 
+def comments():
+    with conn.cursor() as cur:
+        cur.execute("SELECT id, content, poster, score FROM comments;")
+        result = cur.fetchall()
+    print("found comments", result, type(result))
+    return result
+
+
 def userNameExists(username):
     with conn.cursor() as cur:
         cur.execute(f"SELECT exists (SELECT 1 FROM chatUser WHERE username = '{username}' LIMIT 1);")
@@ -38,7 +46,7 @@ def checkPassword(username, password):
 def createUser(username, password):
     with conn.cursor() as cur:
         # TODO Should be unique?
-        cur.execute(f"insert into chatUser values('{username}','{password}');")
+        cur.execute(f"INSERT into chatUser values('{username}','{password}');")
     conn.commit()
     return True
 
@@ -57,6 +65,12 @@ def updateSocialCredit(username: str, socialCreditChange: float):
         conn.commit()
         return True
 
+
+def saveComment(comment, user, score):
+    with conn.cursor() as cur:
+        cur.execute(f"INSERT into comments(content, poster, score) values ('{comment}', '{user}', '{score}');")
+        conn.commit()
+        return True
 
 class User(flask_login.UserMixin):
     pass
