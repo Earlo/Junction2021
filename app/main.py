@@ -6,9 +6,9 @@ import flask_login
 import json 
 from transformers import pipeline
 
-from .user import User, login_manager, users, checkPassword
+from .user import User, login_manager, userNameExists, checkPassword, createUser
 
-from sentiment_scoring import process_comment, score_sentiment
+from .sentiment_scoring import process_comment, score_sentiment
 
 app = Flask(__name__)
 app.secret_key = os.environ['SECRET']
@@ -23,7 +23,13 @@ classifier = pipeline(
 
 login_manager.init_app(app)
 
-@app.route('/', methods=['GET', 'POST'])
+def loginAs(username):
+    user = User()
+    user.id = username
+    flask_login.login_user(user)
+    return redirect(url_for('protected'))
+
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
         return '''
@@ -35,18 +41,17 @@ def login():
                '''
 
     username = request.form['username']
-    if username in users():
-      if checkPassword(request.form['password']):
-          print("logged in")
-          user = User()
-          user.id = username
-          flask_login.login_user(user)
-          return redirect(url_for('protected'))
+    password = request.form['password']
+    if userNameExists(username):
+      if checkPassword(username, password):
+          print("logging in as", username)
+          return loginAs(username)
+      else:
+        print("wrong password")
     else:
-      print('creating user')
-      #TODO create user
-      pass
-
+        print('creating user', username)
+        createUser(username, password)
+        return loginAs(username)
     return 'Bad login'
 
 
