@@ -12,13 +12,13 @@
         td { border: 2px solid #999; border-radius: 5px; padding: 6px 8px; }
         body { font-family: "Helvetica Neue", "Arial", sans-serif; letter-spacing: 0.03em; }
         caption { margin: 10px; }
-        article { height: 100px; width: 100px; border: 2px solid #999; border-radius: 5px; padding: 6px 6px;
+        article { height: 100px; width: 100px; border: 2px solid #999; border-radius: 5px; padding: 6px 6px; margin: 10px;
                   display: flex; justify-content: center; align-items: center; flex-direction: column;}
         article > h4, h5, p { margin: 0px; font-size: 12px; }
         article > svg { margin: 3px 3px; }
 
         hr { min-width: 350px; border: none; border-top: 3px double #333; color: #333; overflow: visible; text-align: center; height: 5px; }
-        hr.comments-divider:after { content: 'Comments'; background: #fff; padding: 0 4px;
+        hr.comments-divider:after { content: 'Karma generators'; background: #fff; padding: 0 4px;
                                        position: relative; top: -13px; }
         hr.leaderboard-divider:after { content: 'Best behaving users'; background: #fff; padding: 0 4px;
                                        position: relative; top: -13px; }
@@ -44,8 +44,8 @@
                 <thead>
                     <tr>
                     <th>Poster</th>
-                    <th>Comment</th>
-                    <th>score</th>
+                    <th>Karma generating message</th>
+                    <th>Score</th>
                     </tr>
                 </thead>
 
@@ -67,7 +67,7 @@
                  <thead>
                     <tr>
                     <th>Name</th>
-                    <th>Empathy score</th>
+                    <th>Karma coins</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -93,7 +93,7 @@
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M0.0146484 0H49.9854C49.9934 0 50 0.00650749 50 0.0145349V49.5979C50 49.6059 49.9934 49.6124 49.9854 49.6124H33.8898C33.8545 49.1255 33.6511 48.3527 32.7147 48.3527C31.4452 48.3527 31.1522 47.7713 31.1522 47.1899L31.2498 40.407C31.2498 38.0814 30.4686 36.531 29.492 35.7558C35.0584 35.1744 40.9178 33.0426 40.9178 23.5465C40.9178 20.8333 39.9413 18.6046 38.3788 16.8605C38.6717 16.2791 39.453 13.7597 38.0858 10.3682C38.0858 10.3682 36.035 9.68991 31.2498 12.8876C27.1483 11.7248 22.8514 11.7248 18.7498 12.8876C13.9647 9.68991 11.9139 10.3682 11.9139 10.3682C10.5467 13.7597 11.328 16.2791 11.6209 16.8605C10.0584 18.6046 9.08188 20.8333 9.08188 23.5465C9.08188 33.0426 14.8436 35.1744 20.41 35.7558C19.7264 36.4341 19.0428 37.5 18.8475 39.1473C17.3827 39.7287 13.7694 40.7946 11.6209 37.0155C11.6209 37.0155 10.2538 34.6899 7.71469 34.4961C7.71469 34.4961 5.27328 34.4961 7.61704 36.0465C7.61704 36.0465 9.17954 36.7248 10.3514 39.6318C10.3514 39.6318 11.8163 43.8954 18.7498 42.345L18.8475 47.1899C18.8475 47.7713 18.5545 48.3527 17.285 48.3527C16.3486 48.3527 16.1452 49.1255 16.1099 49.6124H0.0146484C0.00655833 49.6124 0 49.6059 0 49.5979V0.0145349C0 0.00650749 0.00655833 0 0.0146484 0ZM16.1099 49.6124C16.0937 49.8365 16.1131 50 16.1131 50H33.8866C33.8866 50 33.906 49.8365 33.8898 49.6124H16.1099Z" fill="#4E4E4E"/>
                             </g>
                         </svg>
-                        <p>25 Karma pts</p>
+                        <p>25 Karma coins</p>
                     </article>
                     <article>
                         <h4>Shoutout</h4>
@@ -103,7 +103,7 @@
                             </mask>
                             <image xlink:href="https://www.vectorlogo.zone/logos/twitch/twitch-icon.svg" width="50" height="50"/>    
                         </svg>
-                        <p>50 Karma pts</p>
+                        <p>50 Karma coins</p>
                     </article>
                 </div>
             </footer>
