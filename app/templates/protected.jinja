@@ -16,14 +16,14 @@
                  <thead>
                     <tr>
                     <th>Name</th>
-                    <th>Social Credit</th>
+                    <th>Empathy score</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for user, sc in users | dictsort(by="value", reverse=true) %}
                         <tr>
                             <td>{{user}}</td>
-                            <td>{{sc}}</td>
+                            <td>{{sc|round(2)}}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
