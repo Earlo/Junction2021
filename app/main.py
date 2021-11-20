@@ -11,7 +11,7 @@ from .user import User, login_manager, userNameExists, checkPassword, createUser
 from .sentiment_scoring import process_comment, score_sentiment
 
 app = Flask(__name__)
-app.secret_key = "hyss" #os.environ['SECRET']
+app.secret_key = os.environ['SECRET']
 
 classifier = pipeline(
                     "sentiment-analysis",

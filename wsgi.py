@@ -4,7 +4,7 @@ from app.main import app
 import psycopg2
 
 try:
-  DATABASE_URL = "postgres://dtaqosrndellpp:23a0941b85fd691749866169b62723b20c58e4d92fe9ce76409ea88c30c449b7@ec2-54-155-92-75.eu-west-1.compute.amazonaws.com:5432/d6ev8ev7m2bakd" #os.environ['DATABASE_URL']
+  DATABASE_URL = os.environ['DATABASE_URL']
   conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 except:
     print("I am unable to connect to the database") 
