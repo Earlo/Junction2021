@@ -48,7 +48,7 @@
                 </thead>
 
                 <tbody>
-                    {% for c in comments|sort(attribute='score' |reverse) %}
+                    {% for c in comments|sort(attribute='score')|reverse %}
                         <tr>
                             <td>{{c.poster}}</td>
                             <td>{{c.content}}</td>
