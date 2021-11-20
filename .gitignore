@@ -4,10 +4,12 @@ lib
 Lib
 Scripts
 
-pyenv.cfg
+pyvenv.cfg
 
 # PyCaches
 *__pycache__
+__pycache__/
+*.py[cod]
 
-
+#
 .DS_Store
