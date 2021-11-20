@@ -38,9 +38,21 @@ def loginAs(username):
     flask_login.login_user(user)
     return redirect(url_for('protected'))
 
+@app.route('/', methods=['GET'])
+def index():
+    return redirect(url_for('login'))
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+
+
     if request.method == 'GET':
+        try:
+            if flask_login.current_user.id is not None:
+                return redirect(url_for('protected'))
+        except AttributeError:
+            pass
+
         return '''
                <form action='login' method='POST'>
                 <input type='text' name='username' id='username' placeholder='username'/>
