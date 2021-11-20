@@ -6,9 +6,9 @@
         .main-container { display: flex; justify-content: center; align-items: center; flex-direction: column; }
         .comment-box { margin: 20px 20px }
         .marketplace { display: flex; flex-direction: row; justify-content: center; }
-        footer { margin: 20px 20px 5px 20px; position: absolute; bottom: 0; }
+        footer { margin: 20px 20px 5px 20px; position: absolute; bottom: 0; background: white; }
 
-        table { min-width: 350px; }
+        table { min-width: 350px; padding: 10px 0px; }
         td { border: 2px solid #999; border-radius: 5px; padding: 6px 8px; }
         body { font-family: "Helvetica Neue", "Arial", sans-serif; letter-spacing: 0.03em; }
         caption { margin: 10px; }
@@ -18,10 +18,10 @@
         article > svg { margin: 3px 3px; }
 
         hr { min-width: 350px; border: none; border-top: 3px double #333; color: #333; overflow: visible; text-align: center; height: 5px; }
+        hr.comments-divider:after { content: 'Comments'; background: #fff; padding: 0 4px;
+                                       position: relative; top: -13px; }
         hr.leaderboard-divider:after { content: 'Best behaving users'; background: #fff; padding: 0 4px;
                                        position: relative; top: -13px; }
-        {# hr.marketplace-divider { border: none; border-top: 3px double #333; color: #333;
-                                 overflow: visible; text-align: center; height: 5px; } #}
         hr.marketplace-divider:after { content: 'Marketplace'; background: #fff; padding: 0 4px;
                                        position: relative; top: -13px;}
     </style>
@@ -37,8 +37,10 @@
                 <input type='hidden' name='user' id='user' placeholder='user' value='{{username}}'/>
                 <input type='submit' name='submit'/>
             </form>
+
+            <hr class="comments-divider">
+
             <table class="leaderboard">
-                <caption>Comments</caption>
                 <thead>
                     <tr>
                     <th>Poster</th>
@@ -52,7 +54,7 @@
                         <tr>
                             <td>{{c.poster}}</td>
                             <td>{{c.content}}</td>
-                            <td>{{c.score}}</td>
+                            <td>{{c.score|round(2)}}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
