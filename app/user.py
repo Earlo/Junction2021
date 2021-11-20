@@ -36,9 +36,26 @@ def checkPassword(username, password):
 
 def createUser(username, password):
     with conn.cursor() as cur:
+        # TODO Should be unique?
         cur.execute(f"insert into chatUser values('{username}','{password}');")
     conn.commit()
     return True
+
+def updateSocialCredit(username: str, socialCreditChange: float):
+
+    with conn.cursor() as cur:
+        cur.execute(f"SELECT username, socialcredit FROM chatUser WHERE username = '{username}' LIMIT 1;")
+
+        try:
+            user, socialcredit = cur.fetchone()
+        except psycopg2.ProgrammingError:
+            print(f"User with username {username} was not found in DB")
+            return False
+
+        cur.execute(f"UPDATE chatUser SET socialcredit = {socialcredit + socialCreditChange} WHERE username = '{user}';")
+        conn.commit()
+        return True
+
 
 class User(flask_login.UserMixin):
     pass

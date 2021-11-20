@@ -3,12 +3,12 @@ import os
 from flask import Flask, request, redirect, url_for
 import flask_login
 
-import json 
+import json
 from transformers import pipeline
 
-from .user import User, login_manager, userNameExists, checkPassword, createUser
+from user import User, login_manager, userNameExists, checkPassword, createUser, updateSocialCredit
 
-from .sentiment_scoring import process_comment, score_sentiment
+from sentiment_scoring import process_comment, score_sentiment
 
 app = Flask(__name__)
 app.secret_key = os.environ['SECRET']
@@ -76,6 +76,8 @@ def receive_comment():
 
     social_credit_change = score_sentiment(process_comment(str(comment), classifier))
 
-    # Add comment & update the credit of the user
+    if updateSocialCredit(user, social_credit_change):
+        # TODO: Add comment to the DB
+        pass
 
     return ("", 200)
