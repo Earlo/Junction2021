@@ -63,12 +63,13 @@ def login():
 
     username = request.form['username']
     password = request.form['password']
+
     if userNameExists(username):
-      if checkPassword(username, password):
-          print("logging in as", username)
-          return loginAs(username)
-      else:
-        print("wrong password")
+        if checkPassword(username, password):
+            print("logging in as", username)
+            return loginAs(username)
+        else:
+            print("wrong password")
     else:
         print('creating user', username)
         createUser(username, password)
