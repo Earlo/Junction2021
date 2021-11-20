@@ -70,13 +70,12 @@ def logout():
 
 @app.route("/comment", methods=["POST"])
 def receive_comment():
-  data = request.get_json()
+    data = request.get_json()
 
-  user, comment = (data["user"], data["comment"])
+    user, comment = (data["user"], data["comment"])
 
-  social_credit_change = score_sentiment(process_comment(str(comment), classifier))
+    social_credit_change = score_sentiment(process_comment(str(comment), classifier))
 
-  # Add comment & update the credit of the user
+    # Add comment & update the credit of the user
 
-  return ("", 200)
-
+    return ("", 200)
