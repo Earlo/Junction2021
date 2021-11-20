@@ -7,7 +7,7 @@ import flask_login
 import json
 from transformers import pipeline
 
-from .user import User, login_manager, userNameExists, checkPassword, createUser, updateSocialCredit, users, comments, saveComment
+from .user import User, login_manager, userNameExists, checkPassword, createUser, updateSocialCredit, users, comments, saveComment, getCredits
 
 from .sentiment_scoring import process_comment, score_sentiment
 
@@ -114,14 +114,25 @@ def receive_comment():
             saveComment(comment, user, social_credit_change)
         return redirect(url_for('protected'))
 
+@flask_login.login_required
 @app.route("/gh-purchase", methods=["GET", "POST"])
 def buy_gh_follower():
+
+    print(request.form)
+    print(request)
+
     if request.method == 'GET':
 
         template = templateEnv.get_template("gh-purchase.jinja")
-
         return template.render()
 
-    if request.method == 'POST':
+    elif request.method == "POST":
 
-        return "Not implemented"
+        gh_profile_url = request.form["github_profile_url"]
+
+        user = flask_login.current_user.id
+
+        if getCredits(user) < 25:
+            return "Insufficient credits. Need 25 karma coins for Github follower."
+
+        # TODO Try to follow

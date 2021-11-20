@@ -43,6 +43,15 @@ def checkPassword(username, password):
         return user[1] == password
     return False
 
+def getCredits(username: str) -> float:
+    with conn.cursor() as cur:
+        try:
+            cur.execute(f"SELECT socialcredit FROM chatUser WHERE username = '{username}' LIMIT 1;")
+            return cur.fetchone()[0]
+        except psycopg2.ProgrammingError:
+            print("User was not found")
+
+
 def createUser(username, password):
     with conn.cursor() as cur:
         # TODO Should be unique?
