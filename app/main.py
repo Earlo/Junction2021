@@ -6,9 +6,9 @@ import flask_login
 import json
 from transformers import pipeline
 
-from user import User, login_manager, userNameExists, checkPassword, createUser, updateSocialCredit
+from .user import User, login_manager, userNameExists, checkPassword, createUser, updateSocialCredit
 
-from sentiment_scoring import process_comment, score_sentiment
+from .sentiment_scoring import process_comment, score_sentiment
 
 app = Flask(__name__)
 app.secret_key = os.environ['SECRET']
