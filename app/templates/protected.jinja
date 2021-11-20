@@ -83,6 +83,7 @@
             <footer>
                 <hr class="marketplace-divider">
                 <div class="marketplace">
+                    {% if gh_available %}
                     <article id="gh-follower" >
                         <h4>Github follower</h4>
                         <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -95,6 +96,7 @@
                         </svg>
                         <p>25 Karma coins</p>
                     </article>
+                    {% endif%}
                     <article>
                         <h4>Shoutout</h4>
                         <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">

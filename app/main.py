@@ -7,7 +7,7 @@ import flask_login
 
 from transformers import pipeline
 
-from .user import User, login_manager, userNameExists, checkPassword, createUser, updateSocialCredit, users, comments, saveComment, getCredits
+from .user import User, login_manager, userNameExists, checkPassword, createUser, updateSocialCredit, users, comments, saveComment, getCredits, getBoughtGithub
 
 from .sentiment_scoring import process_comment, score_sentiment
 
@@ -86,11 +86,12 @@ def protected():
     }
 
     comment_items = list(map(lambda c : {'id': c[0], 'content': c[1], 'poster': c[2], 'score': c[3]}, comments()))
-    print("comm", comment_items)
+
     return template.render(
         username = user,
         users = stored_users,
-        comments = comment_items
+        comments = comment_items,
+        gh_available = not getBoughtGithub(user)
     )
 
 
@@ -132,6 +133,9 @@ def buy_gh_follower():
         gh_profile_name = gh_profile_url.removeprefix("https://github.com/")
 
         user = flask_login.current_user.id
+
+        if getBoughtGithub(user):
+            return "No more followers available for sale. Sorry"
 
         if getCredits(user) < 25:
             return "Insufficient credits. Need 25 karma coins for Github follower."

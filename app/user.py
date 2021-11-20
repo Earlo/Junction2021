@@ -50,6 +50,17 @@ def getCredits(username: str) -> float:
             return cur.fetchone()[0]
         except psycopg2.ProgrammingError:
             print("User was not found")
+            return 0.0
+
+
+def getBoughtGithub(username: str) -> bool:
+    with conn.cursor() as cur:
+        try:
+            cur.execute(f"SELECT bought_gh FROM chatUser WHERE username = '{username}' LIMIT 1;")
+            return bool(cur.fetchone()[0])
+        except psycopg2.ProgrammingError:
+            print("User was not found")
+            return False
 
 
 def createUser(username, password):
