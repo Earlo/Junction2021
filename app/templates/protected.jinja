@@ -83,7 +83,7 @@
             <footer>
                 <hr class="marketplace-divider">
                 <div class="marketplace">
-                    <article>
+                    <article id="gh-follower" >
                         <h4>Github follower</h4>
                         <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <mask id="mask0_546_56" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="50" height="50">
@@ -108,5 +108,13 @@
                 </div>
             </footer>
         </div>
+
+        <script>
+            let market_gh = document.getElementById("gh-follower");
+
+            market_gh.addEventListener("click", function() {
+                window.location.href = "gh-purchase";
+            });
+        </script>
     </body>
 </html>

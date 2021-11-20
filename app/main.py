@@ -113,3 +113,15 @@ def receive_comment():
         if updateSocialCredit(user, social_credit_change):
             saveComment(comment, user, social_credit_change)
         return redirect(url_for('protected'))
+
+@app.route("/gh-purchase", methods=["GET", "POST"])
+def buy_gh_follower():
+    if request.method == 'GET':
+
+        template = templateEnv.get_template("gh-purchase.jinja")
+
+        return template.render()
+
+    if request.method == 'POST':
+
+        return "Not implemented"
