@@ -9,11 +9,11 @@ DATABASE_URL = os.environ['DATABASE_URL']
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 def users():
     with conn.cursor() as cur:
-        cur.execute("SELECT username FROM chatUser;")
+        cur.execute("SELECT username, socialcredit FROM chatUser;")
         result = cur.fetchall()
     print("found users", result, type(result))
     print("user 0", result[0][0], type(result[0][0]))
-    return map(lambda x: x[0], result) 
+    return result
 
 def userNameExists(username):
     with conn.cursor() as cur:

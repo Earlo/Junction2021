@@ -20,7 +20,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for user, sc in users.items() %}
+                    {% for user, sc in users | dictsort(by="value", reverse=true) %}
                         <tr>
                             <td>{{user}}</td>
                             <td>{{sc}}</td>

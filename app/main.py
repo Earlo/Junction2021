@@ -7,7 +7,7 @@ import flask_login
 import json
 from transformers import pipeline
 
-from .user import User, login_manager, userNameExists, checkPassword, createUser, updateSocialCredit
+from .user import User, login_manager, userNameExists, checkPassword, createUser, updateSocialCredit, users
 
 from .sentiment_scoring import process_comment, score_sentiment
 
@@ -72,13 +72,14 @@ def protected():
 
     user = flask_login.current_user.id
 
-    #TODO message prompt here
-    #TODO logout button
+    stored_users = {
+        user: sc for (user, sc) in users()
+    }
+
     return template.render(
         username = user,
-        users = {"PLACEHOLDER USER": 0.0}
+        users = stored_users
     )
-
 
 
 @app.route('/logout')
