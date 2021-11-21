@@ -1,5 +1,6 @@
 import os
 import jinja2
+import numpy
 import requests
 
 from flask import Flask, request, redirect, url_for, jsonify
@@ -29,6 +30,8 @@ template_dir = os.path.realpath(
 )
 templateLoader = jinja2.FileSystemLoader(searchpath=template_dir)
 templateEnv = jinja2.Environment(loader=templateLoader)
+
+DISPLAY_COMMENT_LIMIT = 10
 
 login_manager.init_app(app)
 
@@ -85,7 +88,20 @@ def protected():
         user: sc for (user, sc) in users()
     }
 
-    comment_items = list(map(lambda c : {'id': c[0], 'content': c[1], 'poster': c[2], 'score': c[3]}, comments()))
+    platform_comments = comments()
+
+    # Sample DISPLAY_COMMENT_LIMIT comments with weighting on the score
+    if len(platform_comments) > DISPLAY_COMMENT_LIMIT:
+
+        scores = [float(c[3]) for c in platform_comments]
+
+        softmaxes = numpy.exp(scores) / numpy.sum(numpy.exp(scores))
+
+        platform_comment_indexes = numpy.random.choice(len(softmaxes), size=DISPLAY_COMMENT_LIMIT, replace=False, p=softmaxes)
+
+        platform_comments = numpy.array(platform_comments)[platform_comment_indexes]
+
+    comment_items = [{'content': str(c[1]), 'poster': str(c[2]), 'score': float(c[3])} for c in platform_comments]
 
     return template.render(
         username = user,
