@@ -12,8 +12,6 @@ def users():
     with conn.cursor() as cur:
         cur.execute("SELECT username, socialcredit FROM chatUser;")
         result = cur.fetchall()
-    print("found users", result, type(result))
-    print("user 0", result[0][0], type(result[0][0]))
     return result
 
 def comments():

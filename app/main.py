@@ -2,7 +2,7 @@ import os
 import jinja2
 import requests
 
-from flask import Flask, request, redirect, url_for
+from flask import Flask, request, redirect, url_for, jsonify
 import flask_login
 
 from transformers import pipeline
@@ -153,3 +153,15 @@ def buy_gh_follower():
             return "Congratulations on your new follower: https://github.com/Manezki"
         else:
             return "Something went wrong with the purchase, did you supply Github profile link in the form https://github.com/USERNAME?"
+
+
+@app.route("/top_users/<rank>", methods=["GET"])
+def top_users(rank):
+    if request.method == 'GET':
+        # return jsonify(list(map(lambda u : {'name': u[0], 'score': u[1]}, users())))
+        try:
+            print("respons", jsonify(sorted(users(), key=lambda tup: -tup[1])[int(rank)]))
+            return jsonify(sorted(users(), key=lambda tup: -tup[1])[int(rank)])
+        except:
+            print("response 0")
+            return jsonify(0)
