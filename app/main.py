@@ -34,6 +34,7 @@ templateLoader = jinja2.FileSystemLoader(searchpath=template_dir)
 templateEnv = jinja2.Environment(loader=templateLoader)
 
 DISPLAY_COMMENT_LIMIT = 10
+GH_FOLLOWER_PRICE = 5
 
 login_manager.init_app(app)
 
@@ -157,8 +158,8 @@ def buy_gh_follower():
         if getBoughtGithub(user):
             return "No more followers available for sale. Sorry"
 
-        if getCredits(user) < 25:
-            return "Insufficient credits. Need 25 karma coins for Github follower."
+        if getCredits(user) < GH_FOLLOWER_PRICE:
+            return "Insufficient credits. Need GH_FOLLOWER_PRICE karma coins for Github follower."
 
         response = requests.put(
             f"https://api.github.com/user/following/{gh_profile_name}",
@@ -169,7 +170,7 @@ def buy_gh_follower():
         )
 
         if response.status_code == 204:
-            updateSocialCredit(user, -25)
+            updateSocialCredit(user, -GH_FOLLOWER_PRICE)
             return "Congratulations on your new follower: https://github.com/Manezki"
         else:
             return "Something went wrong with the purchase, did you supply Github profile link in the form https://github.com/USERNAME?"
