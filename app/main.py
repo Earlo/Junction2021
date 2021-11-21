@@ -8,12 +8,14 @@ import flask_login
 
 from transformers import pipeline
 
-from .user import User, login_manager, userNameExists, checkPassword, createUser, updateSocialCredit, users, comments, saveComment, getCredits, getBoughtGithub
+from .user import User, login_manager, userNameExists, checkPassword, createUser, updateSocialCredit, users, comments, saveComment, getCredits, getBoughtGithub, ShoutOut
 
 from .sentiment_scoring import process_comment, score_sentiment
 
 app = Flask(__name__)
 app.secret_key = os.environ['SECRET']
+
+active_shoutout = ""
 
 classifier = pipeline(
                     "sentiment-analysis",
@@ -87,6 +89,7 @@ def protected():
     stored_users = {
         user: sc for (user, sc) in users()
     }
+    highlight = ShoutOut().current
 
     platform_comments = comments()
 
@@ -107,7 +110,8 @@ def protected():
         username = user,
         users = stored_users,
         comments = comment_items,
-        gh_available = not getBoughtGithub(user)
+        gh_available = not getBoughtGithub(user),
+        highlight = highlight
     )
 
 
@@ -171,6 +175,22 @@ def buy_gh_follower():
             return "Something went wrong with the purchase, did you supply Github profile link in the form https://github.com/USERNAME?"
 
 
+@flask_login.login_required
+@app.route("/shoutout-purchase", methods=["GET"])
+def buy_shoutout():
+    if request.method == 'GET':
+        user = flask_login.current_user.id
+        shout = ShoutOut()
+        if user not in shout.waiting:
+            if getCredits(user) > 1:
+                updateSocialCredit(user, -1)
+                shout.waiting.append(user)
+        else:
+            print("not ok", user)
+        return redirect(url_for('protected'))
+
+
+
 @app.route("/top_users/<rank>", methods=["GET"])
 def top_users(rank):
     if request.method == 'GET':
@@ -181,3 +201,20 @@ def top_users(rank):
         except:
             print("response 0")
             return jsonify(0)
+
+@app.route("/highlight", methods=["GET"])
+def highlight():
+    shout = ShoutOut()
+    if request.method == 'GET':
+        highlight = ShoutOut().waiting
+        return jsonify(highlight)
+
+@app.route("/highlight/<username>", methods=["GET"])
+def setHighlight(username):
+    shout = ShoutOut()
+    if request.method == 'GET':
+        if username in shout.waiting:
+            shout.waiting.remove(username)
+            shout.current = username
+            return 200
+        return 400

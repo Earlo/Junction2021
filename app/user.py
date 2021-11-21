@@ -6,7 +6,20 @@ login_manager = flask_login.LoginManager()
 import os
 import psycopg2
 
+
 DATABASE_URL = os.environ['DATABASE_URL']
+
+class Singleton(type):
+    _instances = {}
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
+        return cls._instances[cls]
+
+class ShoutOut(metaclass=Singleton):
+    current = None
+    waiting = []
+
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 def users():
     with conn.cursor() as cur:
@@ -86,7 +99,7 @@ def updateSocialCredit(username: str, socialCreditChange: float):
 
 def saveComment(comment, user, score):
     with conn.cursor() as cur:
-        cur.execute(f"INSERT into comments(content, poster, score) values ('{comment}', '{user}', '{score}');")
+        cur.execute(f"""INSERT into comments(content, poster, score) values ('{comment.replace("'", "''")}', '{user}', '{score}');""")
         conn.commit()
         return True
 
